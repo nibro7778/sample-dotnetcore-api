@@ -25,12 +25,14 @@ namespace Sample.API.Models
                         new ContactPerson()
                         {
                             Id = 1,
-                            Name = "Rob"
+                            Name = "Rob",
+                            ContactNo = "0470237375"
                         },
                         new ContactPerson()
                         {
                             Id = 2,
-                            Name = "John"
+                            Name = "John",
+                            ContactNo = "0470237376"
                         }
                     }
 
@@ -44,7 +46,8 @@ namespace Sample.API.Models
                         new ContactPerson()
                         {
                             Id = 3,
-                            Name = "Jems"
+                            Name = "Jems",
+                            ContactNo = "0470237376"
                         }
                     }
                 }

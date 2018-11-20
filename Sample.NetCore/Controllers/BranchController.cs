@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Sample.API.Models;
 
@@ -20,14 +21,14 @@ namespace Sample.API.Controllers
         public IActionResult GetBranch(int id)
         {
             var response = BranchDataSource.BranchList.Branches.Where(x => x.Id == id);
-            if(response.Count() == 0)
+            if (response.Count() == 0)
             {
                 return NotFound();
             }
             return Ok(response);
         }
 
-        [HttpGet("{branchId}/contactperson/{id}", Name= "GetContactPerson")]
+        [HttpGet("{branchId}/contactperson/{id}", Name = "GetContactPerson")]
         public IActionResult GetContactPerson(int branchId, int id)
         {
             var branch = BranchDataSource.BranchList.Branches.FirstOrDefault(x => x.Id == branchId);
@@ -55,7 +56,7 @@ namespace Sample.API.Controllers
                 return BadRequest();
             }
 
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 //You can add your custom message
                 ModelState.AddModelError("Error", "Please provide required field value");
@@ -64,7 +65,7 @@ namespace Sample.API.Controllers
 
             var branch = BranchDataSource.BranchList.Branches.FirstOrDefault(x => x.Id == branchId);
 
-            if(branch == null)
+            if (branch == null)
             {
                 return NotFound();
             }
@@ -74,15 +75,83 @@ namespace Sample.API.Controllers
             var newContactPerson = new ContactPerson()
             {
                 Id = maxContactPersonId + 1,
-                Name = contactPerson.Name
+                Name = contactPerson.Name,
+                ContactNo = contactPerson.ContactNo
             };
 
             branch.ContactPersons.Add(newContactPerson);
 
-            return CreatedAtRoute("GetContactPerson", 
+            return CreatedAtRoute("GetContactPerson",
                 new { branchId = branchId, id = maxContactPersonId }, newContactPerson);
 
         }
 
+        [HttpPut("{branchId}/contactperson/{id}")]
+        public IActionResult UpdateContactPerson(int branchId, int id, [FromBody] ContactPersonForUpdateDto contactPerson)
+        {
+            if(contactPerson == null)
+            {
+                return BadRequest();
+            }
+
+            var branch = BranchDataSource.BranchList.Branches.FirstOrDefault(x => x.Id == branchId);
+
+            if (branch == null)
+            {
+                return NotFound();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                //You can add your custom message
+                ModelState.AddModelError("Error", "Please provide required field value");
+                return BadRequest(ModelState);
+            }
+
+            var contactPersonFromStore = branch.ContactPersons.FirstOrDefault(x => x.Id == id);
+
+            if(contactPersonFromStore ==  null)
+            {
+                return NotFound();
+            }
+
+            contactPersonFromStore.Name = contactPerson.Name;
+            contactPersonFromStore.ContactNo = contactPerson.ContactNo;
+
+            return NoContent();
+        }
+
+        [HttpPatch("{branchId}/contactperson/{id}")]
+        public IActionResult UpdateContactPerson(int branchId, int id, [FromBody] JsonPatchDocument<ContactPersonForUpdateDto> patchDoc)
+        {
+            if(patchDoc == null)
+            {
+                return BadRequest();
+            }
+
+            var branch = BranchDataSource.BranchList.Branches.FirstOrDefault(x => x.Id == branchId);
+
+            if (branch == null)
+            {
+                return NotFound();
+            }
+
+            var contactPersonFromStore = branch.ContactPersons.FirstOrDefault(x => x.Id == id);
+
+            if (contactPersonFromStore == null)
+            {
+                return NotFound();
+            }
+
+            var contactPersonToPatch = new ContactPersonForUpdateDto()
+            {
+                Name = contactPersonFromStore.Name,
+                ContactNo = contactPersonFromStore.ContactNo
+            };
+
+            patchDoc.ApplyTo(contactPersonToPatch, ModelState);
+
+            return NoContent();
+        }
     }
 }
