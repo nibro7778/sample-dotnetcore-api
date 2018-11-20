@@ -161,5 +161,27 @@ namespace Sample.API.Controllers
 
             return NoContent();
         }
+
+        [HttpDelete("{branchId}/contactperson/{id}")]
+        public IActionResult DeleteContactPerson(int branchId, int id)
+        {
+            var branch = BranchDataSource.BranchList.Branches.FirstOrDefault(x => x.Id == branchId);
+
+            if (branch == null)
+            {
+                return NotFound();
+            }
+
+            var contactPersonFromStore = branch.ContactPersons.FirstOrDefault(x => x.Id == id);
+
+            if (contactPersonFromStore == null)
+            {
+                return NotFound();
+            }
+
+            branch.ContactPersons.Remove(contactPersonFromStore);
+
+            return NoContent();
+        }
     }
 }
