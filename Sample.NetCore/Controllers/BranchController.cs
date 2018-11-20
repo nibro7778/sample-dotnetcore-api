@@ -151,6 +151,14 @@ namespace Sample.API.Controllers
 
             patchDoc.ApplyTo(contactPersonToPatch, ModelState);
 
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            contactPersonFromStore.Name = contactPersonToPatch.Name;
+            contactPersonFromStore.ContactNo = contactPersonToPatch.ContactNo;
+
             return NoContent();
         }
     }
