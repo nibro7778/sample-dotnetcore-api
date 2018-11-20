@@ -7,15 +7,16 @@ using Sample.API.Models;
 
 namespace Sample.API.Controllers
 {
+    [Route("api")]
     public class BranchController : Controller
     {
-        [HttpGet("api/branches")]
+        [HttpGet("branches")]
         public IActionResult GetBranches()
         {
             return Ok(BranchDataSource.BranchList.Branches);
         }
 
-        [HttpGet("api/branch/{id}")]
+        [HttpGet("branch/{id}")]
         public IActionResult GetBranch(int id)
         {
             var response = BranchDataSource.BranchList.Branches.Where(x => x.Id == id);
@@ -26,7 +27,7 @@ namespace Sample.API.Controllers
             return Ok(response);
         }
 
-        [HttpGet("api/{branchId}/contactperson/{id}", Name= "GetContactPerson")]
+        [HttpGet("{branchId}/contactperson/{id}", Name= "GetContactPerson")]
         public IActionResult GetContactPerson(int branchId, int id)
         {
             var branch = BranchDataSource.BranchList.Branches.FirstOrDefault(x => x.Id == branchId);
@@ -46,7 +47,7 @@ namespace Sample.API.Controllers
             return Ok(contactPerson);
         }
 
-        [HttpPost("api/{branchId}/contactperson")]
+        [HttpPost("{branchId}/contactperson")]
         public IActionResult CreateContactPerson(int branchId, [FromBody] ContactPersonForCreationDto contactPerson)
         {
             if (contactPerson == null)
