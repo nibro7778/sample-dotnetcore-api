@@ -55,6 +55,13 @@ namespace Sample.API.Controllers
                 return BadRequest();
             }
 
+            if(!ModelState.IsValid)
+            {
+                //You can add your custom message
+                ModelState.AddModelError("Error", "Please provide required field value");
+                return BadRequest(ModelState);
+            }
+
             var branch = BranchDataSource.BranchList.Branches.FirstOrDefault(x => x.Id == branchId);
 
             if(branch == null)
