@@ -26,5 +26,55 @@ namespace Sample.API.Controllers
             return Ok(response);
         }
 
+        [HttpGet("api/{branchId}/contactperson/{id}", Name= "GetContactPerson")]
+        public IActionResult GetContactPerson(int branchId, int id)
+        {
+            var branch = BranchDataSource.BranchList.Branches.FirstOrDefault(x => x.Id == branchId);
+
+            if (branch == null)
+            {
+                return NotFound();
+            }
+
+            var contactPerson = branch.ContactPersons.FirstOrDefault(x => x.Id == id);
+
+            if (contactPerson == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(contactPerson);
+        }
+
+        [HttpPost("api/{branchId}/contactperson")]
+        public IActionResult CreateContactPerson(int branchId, [FromBody] ContactPersonForCreationDto contactPerson)
+        {
+            if (contactPerson == null)
+            {
+                return BadRequest();
+            }
+
+            var branch = BranchDataSource.BranchList.Branches.FirstOrDefault(x => x.Id == branchId);
+
+            if(branch == null)
+            {
+                return NotFound();
+            }
+
+            var maxContactPersonId = BranchDataSource.BranchList.Branches.SelectMany(x => x.ContactPersons).Max(c => c.Id);
+
+            var newContactPerson = new ContactPerson()
+            {
+                Id = maxContactPersonId + 1,
+                Name = contactPerson.Name
+            };
+
+            branch.ContactPersons.Add(newContactPerson);
+
+            return CreatedAtRoute("GetContactPerson", 
+                new { branchId = branchId, id = maxContactPersonId }, newContactPerson);
+
+        }
+
     }
 }
