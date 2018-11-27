@@ -9,8 +9,8 @@ namespace Sample.API.Services
 {
     public class LocalMailService : IMailService
     {
-        private string _mailTo = Startup.configuration["mailsetting: mailToAddress"];
-        private string _mailFrom = Startup.configuration["mailsetting: mailToAddress"];
+        private string _mailTo = Startup.configuration["mailSetting:mailToAddress"];
+        private string _mailFrom = Startup.configuration["mailSetting:mailFromAddress"];
 
         public void Send(string subject, string message)
         {

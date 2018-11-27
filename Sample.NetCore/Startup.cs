@@ -15,12 +15,22 @@ namespace Sample.NetCore
 {
     public class Startup
     {
-        public static IConfiguration configuration { get; private set;  }
+        //dotnet core 1.0
+        //public static IConfigurationRoot configuration { get; private set; }
+        //public Startup(IHostingEnvironment env)
+        //{
+        //    var builder = new ConfigurationBuilder()
+        //            .SetBasePath(env.ContentRootPath)
+        //            .AddJsonFile("app.json", optional: false, reloadOnChange: true)
+        //            .AddJsonFile($"app.{env.EnvironmentName}.json", optional: false, reloadOnChange: true);
+        //    configuration = builder.Build();
+        //}
 
-        public Startup(IConfiguration config)
+        public static IConfiguration configuration { get; set; }
+        
+        public Startup(IConfiguration _configuration)
         {
-            configuration = config;            
-
+            configuration = _configuration;
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -42,7 +52,7 @@ namespace Sample.NetCore
         {
             loggerFactory.AddConsole();
             loggerFactory.AddDebug();
-            
+
             //loggerFactory.AddProvider(new NLog.Extensions.Logging.NLogLoggerProvider());
             loggerFactory.AddNLog();
 
@@ -55,7 +65,7 @@ namespace Sample.NetCore
                 app.UseExceptionHandler();
             }
             app.UseStatusCodePages();
-            app.UseMvc();            
+            app.UseMvc();
         }
     }
 }

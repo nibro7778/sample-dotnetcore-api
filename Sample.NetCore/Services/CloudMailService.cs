@@ -10,7 +10,7 @@ namespace Sample.API.Services
     {
         public void Send(string subject, string message)
         {
-            Debug.WriteLine($"Cloud Mail service called");
+            Debug.WriteLine("Cloud Mail service called");
         }
     }
 }
