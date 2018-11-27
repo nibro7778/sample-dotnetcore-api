@@ -1,0 +1,6 @@
+﻿{
+  "mailSetting": {
+    "mailToAddress": "hello@test.com",
+    "mailFromAddress": "noreply@test.com"
+  }
+}
