@@ -46,7 +46,7 @@ namespace Sample.NetCore
 #else
             services.AddTransient<IMailService, CloudMailService>();
 #endif
-            var connection = @"Server=.\SQLExpress;Database=BranchInfoDB;Trusted_Connection=True";
+            var connection = Startup.configuration["connectionStrings:branchInfoDBContextString"];
             services.AddDbContext<BranchInfoContext>(o => o.UseSqlServer(connection));
         }
 
