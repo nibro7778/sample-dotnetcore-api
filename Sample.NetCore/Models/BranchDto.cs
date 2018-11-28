@@ -15,6 +15,6 @@ namespace Sample.API.Models
                 return ContactPersons.Count;
             } }
 
-        public ICollection<ContactPerson> ContactPersons { get; set; } = new List<ContactPerson>();
+        public ICollection<ContactPersonDto> ContactPersons { get; set; } = new List<ContactPersonDto>();
     }
 }

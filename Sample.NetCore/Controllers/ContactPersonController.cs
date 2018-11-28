@@ -70,7 +70,7 @@ namespace Sample.API.Controllers
 
             var maxContactPersonId = BranchDataSource.BranchList.Branches.SelectMany(x => x.ContactPersons).Max(c => c.Id);
 
-            var newContactPerson = new ContactPerson()
+            var newContactPerson = new ContactPersonDto()
             {
                 Id = maxContactPersonId + 1,
                 Name = contactPerson.Name,

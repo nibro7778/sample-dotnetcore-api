@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Sample.API.Models
 {
-    public class ContactPerson
+    public class ContactPersonDto
     {
         public int Id { get; set; }
         public string Name { get; set; }

@@ -20,15 +20,15 @@ namespace Sample.API.Models
                 {
                     Id = 1,
                     Name = "New York",
-                    ContactPersons = new List<ContactPerson>()
+                    ContactPersons = new List<ContactPersonDto>()
                     {
-                        new ContactPerson()
+                        new ContactPersonDto()
                         {
                             Id = 1,
                             Name = "Rob",
                             ContactNo = "0470237375"
                         },
-                        new ContactPerson()
+                        new ContactPersonDto()
                         {
                             Id = 2,
                             Name = "John",
@@ -41,9 +41,9 @@ namespace Sample.API.Models
                 {
                     Id = 2,
                     Name = "Sydney",
-                    ContactPersons = new List<ContactPerson>()
+                    ContactPersons = new List<ContactPersonDto>()
                     {
-                        new ContactPerson()
+                        new ContactPersonDto()
                         {
                             Id = 3,
                             Name = "Jems",
