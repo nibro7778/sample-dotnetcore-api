@@ -11,7 +11,7 @@ namespace Sample.API.Entity
         public BranchInfoContext(DbContextOptions<BranchInfoContext> option)
             : base(option)
         {
-            Database.EnsureCreated();
+            Database.Migrate();
         }
 
         public DbSet<Branch> Branches { get; set; }

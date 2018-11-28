@@ -15,6 +15,9 @@ namespace Sample.API.Entity
 
         public string Name { get; set; }
 
+        [MaxLength(12)]
+        public string ContactNo { get; set; }
+
         [ForeignKey("BranchId")]
         public Branch Branch { get; set; }
 
