@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
+using Sample.API.Entity;
 using Sample.API.Services;
 
 namespace Sample.NetCore
@@ -44,7 +46,8 @@ namespace Sample.NetCore
 #else
             services.AddTransient<IMailService, CloudMailService>();
 #endif
-
+            var connection = @"Server=.\SQLExpress;Database=BranchInfoDB;Trusted_Connection=True";
+            services.AddDbContext<BranchInfoContext>(o => o.UseSqlServer(connection));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
