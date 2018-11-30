@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using Sample.API.Entity;
+using Sample.API.Models;
 using Sample.API.Services;
 
 namespace Sample.NetCore
@@ -51,7 +52,7 @@ namespace Sample.NetCore
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, BranchInfoContext branchInfoContext)
         {
             loggerFactory.AddConsole();
             loggerFactory.AddDebug();
@@ -67,6 +68,8 @@ namespace Sample.NetCore
             {
                 app.UseExceptionHandler();
             }
+
+            BranchInfoExtensions.EnsureSeedDataForContext(branchInfoContext);
             app.UseStatusCodePages();
             app.UseMvc();
         }
